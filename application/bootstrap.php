@@ -1,8 +1,6 @@
 <?php
+  /* Файл конфигурации */
   require_once __ROOT__.'conf/index.php';
-  // require_once __CONTROLLERS__.'index.php';
-
-
 
   class FrontController {
     static private $_instance;
@@ -20,27 +18,22 @@
 
     function router() {
       $controllerName = 'main';
-      $actionName = 'index';
-      
+      $actionName = 'index';      
       /* Обработка HTTP-запроса */
       $request = $_SERVER['REQUEST_URI'];
-      $splits = explode('/', trim($request, '/'));      
-      
+      $splits = explode('/', trim($request, '/'));
       /* Получаем имя контроллера */
       if ( !empty($splits[$this->index]) ) {
         $controllerName = mb_strtolower($splits[$this->index]);
       }
-
       /* Получаем имя экшена */
       if ( !empty($splits[$this->index + 1]) ) {
         $actionName = mb_strtolower($splits[$this->index + 1]);
       }
-
+      /* Имя файла, в котором описан контроллер */
       $controllerFile = $controllerName.'.php';
+      /* Путь к файлу, в котором описан контроллер */
       $controllerPath = __CONTROLLERS__.$controllerFile;
-
-      echo $controllerPath;
-
       if ( file_exists($controllerPath) ) {
         require_once $controllerPath;
       } else {
