@@ -8,4 +8,4 @@
   require_once __ROOT__.'bootstrap.php';
 
   $run = FrontController::getInstance();
-  $run->router();  
+  $run->router();

@@ -17,32 +17,38 @@
     }
 
     function router() {
-      $controllerName = 'main';
-      $actionType = 'index';
-      $actionPayload = '';
       /* Обработка HTTP-запроса */
       $request = $_SERVER['REQUEST_URI'];
       $splits = explode('/', trim($request, '/'));
-      /* Получаем имя контроллера */
-      if ( !empty($splits[$this->index]) ) {
-        $controllerName = mb_strtolower($splits[$this->index]);
-      }
-      /* Получаем имя экшена */
-      if ( !empty($splits[$this->index + 1]) ) {
-        $actionName = mb_strtolower($splits[$this->index + 1]);
-      }
-      /* Получаем данные экшена */
+      
+      switch ( count($splits) ) {
+        case FC_SPLITS_INDEX:
+          /* Пустая адресная строка: подключаем главную страницу */
+          $controllerName = 'MainPage';
+          $controllerPath = __CONTROLLERS__.'c-page-main.php';
+          break;
+        
+        case FC_SPLITS_INDEX + 1:
+          /* В адресной строке пришел 1 элемент: должно быть это запрос авторизации */
+          if ( $splits[$this->index] === 'login' ) {
+            $controllerName = 'LoginPage';
+            $controllerPath = __CONTROLLERS__.'c-page-login.php';
+          } else {
+            $controllerName = 'ErrorPage';
+            $controllerPath = __CONTROLLERS__.'c-page-404.php';
+          }
+          break;
 
-      // /* Имя файла, в котором описан контроллер */
-      // $controllerFile = $controllerName.'.php';
-      // /* Путь к файлу, в котором описан контроллер */
-      // $controllerPath = __CONTROLLERS__.$controllerFile;
-      // if ( file_exists($controllerPath) ) {
-      //   require_once $controllerPath;
-      // } else {
-      //   header('HTTP/1.1 404 Not Found');
-      //   header('Status: 404 Not Found');
-      //   require_once __ERROR_PAGE__;
-      // }
+        default:
+          /* В адресную строку пришло не понятно что */
+          $controllerName = 'ErrorPage';
+          $controllerPath = __CONTROLLERS__.'c-page-404.php';
+          break;
+      }
+
+      /* Подключаем контроллер */
+      require_once $controllerPath;
+      $page = new PageContext(new $controllerName);
+      return $page->execute();
     }
   }
