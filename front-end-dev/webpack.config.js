@@ -11,7 +11,7 @@ const webpackConfig = {
   },
   output: {
     path: outputPath,
-    filename: 'bundle.js',
+    filename: '[name].js',
   },
   devtool: 'source-map',
   resolve: {
