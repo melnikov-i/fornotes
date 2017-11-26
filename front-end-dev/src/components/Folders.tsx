@@ -13,8 +13,14 @@ interface FoldersProps {
 
 export const Folders: React.SFC<FoldersProps> = ( props ) => {
   const { foldersWrapperWidth } = props;
+  const onMouseOverHandler = () => {
+    console.log('[FoldersWrapper]: MouseOver');
+  }
   return (
-    <FoldersWrapper width={ foldersWrapperWidth }>
+    <FoldersWrapper
+      width={ foldersWrapperWidth }
+      onMouseOver={onMouseOverHandler}
+    >
       <FoldersHeader>{'folders'}</FoldersHeader>
     </FoldersWrapper>
   );

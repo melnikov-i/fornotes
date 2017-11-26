@@ -9,6 +9,7 @@ export const FoldersWrapper = GridDiv.extend`
   width: ${(props: FodlersWrapperProps) => props.width }px;
   height: 100%;
   overflow: hidden;
+  border-right: 1px solid #505050;
   background: #e6e6e6;
 `;
 
@@ -20,10 +21,4 @@ export const FoldersHeader = styled.h1`
   line-height: 22px;
   color: #828282;
   text-transform: uppercase;
-`;
-
-export const FoldersBorder = GridDiv.extend`
-  width: 1px;
-  height: 100%;
-  background: #505050;
 `;
